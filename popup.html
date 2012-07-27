@@ -56,7 +56,7 @@
         <tr><div id="buttons">
           <td class="field-name"></td>
           <td class="field-value">
-            <div class="add_button button primary-button disabled" tabindex="0">   <!-- changed add_button from id to class -->
+            <div id="add_button" class="button primary-button disabled" tabindex="0">   <!-- changed add_button from id to class -->
               <span class="button-text">Add to Asana</span>
             </div>
           </td>
@@ -68,7 +68,7 @@
         <tr>
           <td class="field-name"></td>
           <td class="field-value">
-            <div class="add_button button primary-button disabled" tabindex="0">
+            <div id="assign_to_all_button" class="button primary-button enabled" tabindex="0">
               <span class="button-text">Assign to All</span>
             </div>
           </td>
@@ -197,7 +197,7 @@
 
   // Enable/disable the add button.
   var setAddEnabled = function(enabled) {
-    var button = $(".add_button");
+    var button = $("#add_button");
     if (enabled) {
       button.removeClass("disabled");
       button.addClass("enabled");
@@ -254,60 +254,7 @@
   var readWorkspaceId = function() {
     return $("#workspace").val();
   };
-
-
-   // Custom functions
-
-   /*
-
-  var readAllAssignees(assignee) = function() {
-    return assignee.val();
-  };
-
-  var readAllWorkspaceIds(workspace) = function() {
-    return workspace.val();
-  }
-
-  */
-
-  // Custom functions
-
-
-/*
-
-
-var persons = [
-	{name: 'edward', workspaceid: 'aslkfjasldfjwori23o231o2323'},   // ask people for their workspace id - this one way does it manually
-	//etc
-];
-
-  var createTask = function() {
-    console.info("Creating task");
-    hideError();
-    setAddWorking(true);
-  	for (person in persons) {
-  		Asana.ServerModel.createTask(
-  	        person.workspaceid, // match this 
-  	        {
-  	          name: $("#name").val(),
-  	          notes: $("#notes").val(),
-  	          assignee: person.name || person.id                    // had to match whatever readAssignee is 
-  	        },
-  	        function(task) {
-  	          setAddWorking(false);
-  	          showSuccess(task);
-  	        },
-  	        function(response) {
-  	          setAddWorking(false);
-  	          showError(response.errors[0].message);
-  	        }
-  		);
-  	}
-  };
-
-*/
-
-
+  
   var createTask = function() {
     console.info("Creating task");
     hideError();
@@ -328,34 +275,6 @@ var persons = [
           showError(response.errors[0].message);
         });
   };
-
-
-  var createTaskForAll = function() {
-    console.info("Creating task");
-    hideError();
-    setAddWorking(true);
-    for (users[i]; users.length; i++) {
-      Asana.ServerModel.createTaskForAll(
-            readWorkspaceId(), //readAllWorkspaceIds(users[i].workspace),                 // how to access each workspace?
-            {
-              name: $("#name").val(),
-              notes: $("#notes").val(),
-              assignee: readAssignee() //readAllAssignees(users[i])                   // readAssignee() should read different assignee
-            },
-            function(task) {
-              setAddWorking(false);
-              showSuccess(task);
-            },
-            function(response) {
-              setAddWorking(false);
-              showError(response.errors[0].message);
-            }
-      );
-    }
-  };
-
-
-
 
   var showError = function(message) {
     console.log("Error: " + message);
@@ -401,9 +320,37 @@ var persons = [
     }
   }, /*capture=*/false);
 
-// entering alexland
 
-$('#edwardify').click(function(){});
+/* Custom */
+
+var users = [1095079184800, 1074763891049]; 
+    
+  $('#assign_to_all_button').click(function() {
+      alert('clicked inside')
+      console.log("Creating task");
+      // hideError();
+      // setAddWorking(true);
+      for (i=0; i<users.length; i++) {
+        Asana.ServerModel.createTask(
+              readWorkspaceId(), 
+              {
+                name: $("#name").val(),
+                notes: $("#notes").val(),
+                assignee: users[i],
+              },
+              function(task) {
+                setAddWorking(false);
+                showSuccess(task);
+              },
+              function(response) {
+                setAddWorking(false);
+                showError(response.errors[0].message);
+              });
+      };
+  });
+
+
+
 
 </script>
 

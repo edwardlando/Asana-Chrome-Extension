@@ -125,22 +125,6 @@ Asana.ServerModel = {
         });
   },
 
-  // Assign to everyone 
-
-  createTaskForAll: function(workspace_id, task, callback, errback) {
-    var self = this;
-    Asana.ApiBridge.request(
-        "POST",
-        "/workspaces/" + workspace_id + "/tasks",
-        task,
-        function(response) {
-          self._makeCallback(response, callback, errback);
-        });
-  },
-
-
-
-
 
 
 
