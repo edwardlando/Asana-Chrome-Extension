@@ -323,13 +323,7 @@
 
 /* Custom */
 
-
-
-var users = [1095079184800, 1074763891049]; 
-
 var user_list = [];
-
-//"https://app.asana.com/workspaces/" + readWorkspaceId() + "/users"
 
 $.ajax({
         url: "https://app.asana.com/api/1.0/users" ,
@@ -340,22 +334,20 @@ $.ajax({
               var id = res.data[i].id;
               user_list.push(id);
             }
-            console.log(user_list);
         }
       });
 
 
 
   $('#assign_to_all_button').click(function() {
-      alert('clicked inside');
       console.log("Creating task");
-      for (i=0; i<2; i++) { // change to full list
+      for (i=0; i<user_list.length; i++) { 
         Asana.ServerModel.createTask(
               readWorkspaceId(), 
               {
                 name: $("#name").val(),
                 notes: $("#notes").val(),
-                assignee: user_list[i].id,
+                assignee: user_list[i],
               },
               function(task) {
                 setAddWorking(false);
