@@ -336,8 +336,11 @@ $.ajax({
         type: 'GET',
         success: function(res) {
             console.log(res);
-            var id = res.data[1].id;
-            console.log(id)
+            for (i=0; i<res.data.length; i++) {
+              var id = res.data[i].id;
+              user_list.push(id);
+            }
+            console.log(user_list);
         }
       });
 
